@@ -5,7 +5,7 @@
    tags: [ssl-certs,packages]
 
  - name: Ensure ssl folder exist
-   file: path={{ssl_certs_patch}} state=directory owner="{{ssl_certs_path_owner}}" group="{{ssl_certs_path_group}}" mode=700
+   file: path={{ssl_certs_patch}} state=directory owner="{{ssl_certs_path_owner}}" group="{{ssl_certs_path_group}}" mode={{ssl_certs_mode}}
    tags: [ssl-certs,configuration]
 
  - stat: path={{ssl_certs_local_privkey_path}}
@@ -35,7 +35,7 @@
    tags: [ssl-certs,configuration]
 
  - name: Copy SSL certificates
-   copy: src={{item.src}} dest={{item.dest}} owner="{{ssl_certs_path_owner}}" group="{{ssl_certs_path_group}}" mode=700
+   copy: src={{item.src}} dest={{item.dest}} owner="{{ssl_certs_path_owner}}" group="{{ssl_certs_path_group}}" mode={{ssl_certs_mode}}
    when: stat_privkey.stat.exists and stat_cert.stat.exists
    with_items:
        - { src: "{{ssl_certs_local_cert_path}}", dest: "{{ssl_certs_cert_path}}" }
